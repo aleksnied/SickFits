@@ -29,11 +29,13 @@ const CREATE_ITEM_MUTATION = gql`
 
 class CreateItem extends Component {
   state = {
-    title: "",
-    description: "",
-    image: "",
-    largeImage: "",
-    price: 0,
+    item: {
+      title: "",
+      description: "",
+      image: "",
+      largeImage: "",
+      price: 0
+    },
     uploading: false
   }
 
@@ -41,7 +43,19 @@ class CreateItem extends Component {
     const { name, type, value } = e.target
     console.log(name, type, value)
     const val = type === "number" ? parseFloat(value) : value
-    this.setState({ [name]: val })
+    console.log(this.state)
+    this.setState({ item: { ...this.state.item, [name]: val } })
+    console.log(this.state)
+  }
+
+  createItem = async (e, createItem) => {
+    e.preventDefault()
+    const response = await createItem()
+    console.log(response)
+    Router.push({
+      pathname: "/item",
+      query: { id: response.data.createItem.id }
+    })
   }
 
   uploadFile = async e => {
@@ -62,30 +76,21 @@ class CreateItem extends Component {
     )).json()
     console.log(fileUpload)
     this.setState({
-      image: fileUpload.secure_url,
-      largeImage: fileUpload.eager[0].secure_url,
+      item: {
+        ...this.state.item,
+        image: fileUpload.secure_url,
+        largeImage: fileUpload.eager[0].secure_url
+      },
       uploading: false
     })
   }
 
   render() {
+    const item = this.state.item
     return (
-      <Mutation mutation={CREATE_ITEM_MUTATION} variables={this.state}>
+      <Mutation mutation={CREATE_ITEM_MUTATION} variables={item}>
         {(createItem, { loading, error }) => (
-          <Form
-            onSubmit={async e => {
-              //Stop form from submitting
-              e.preventDefault()
-              //Call the mutation
-              const response = await createItem()
-              //Take user to single item page
-              console.log(response)
-              Router.push({
-                pathname: "/item",
-                query: { id: response.data.createItem.id }
-              })
-            }}
-          >
+          <Form onSubmit={async e => await this.createItem(e, createItem)}>
             <Error error={error} />
             <fieldset
               disabled={loading || this.state.uploading}
@@ -102,8 +107,8 @@ class CreateItem extends Component {
                   onChange={this.uploadFile}
                 />
               </label>
-              {this.state.image && (
-                <img width="200" src={this.state.image} alt="Upload preview" />
+              {item.image && (
+                <img width="200" src={item.image} alt="Upload preview" />
               )}
               <label htmlFor="title">
                 Title
@@ -113,7 +118,7 @@ class CreateItem extends Component {
                   name="title"
                   placeholder="Title"
                   required
-                  value={this.state.title}
+                  value={item.title}
                   onChange={this.handleChange}
                 />
               </label>
@@ -125,7 +130,7 @@ class CreateItem extends Component {
                   name="price"
                   placeholder="Price"
                   required
-                  value={this.state.price}
+                  value={item.price}
                   onChange={this.handleChange}
                 />
               </label>
@@ -136,11 +141,11 @@ class CreateItem extends Component {
                   name="description"
                   placeholder="Enter a description"
                   required
-                  value={this.state.description}
+                  value={item.description}
                   onChange={this.handleChange}
                 />
               </label>
-              <button type="submit">Submit</button>
+              <button type="submit">Submit{loading ? "ting" : ""}</button>
             </fieldset>
           </Form>
         )}

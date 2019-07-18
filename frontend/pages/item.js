@@ -1,8 +1,8 @@
-import Items from "../components/Items"
+import Item from "../components/Item"
 
 const Home = _props => (
   <div>
-    <Items />
+    <Item />
   </div>
 )
 

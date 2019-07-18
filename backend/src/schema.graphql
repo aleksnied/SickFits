@@ -17,6 +17,8 @@ type Mutation {
     # largeImage: String TODO add image updating
     price: Int
   ): Item!
+
+  deleteItem(id: ID!): Item
 }
 
 type Query {
