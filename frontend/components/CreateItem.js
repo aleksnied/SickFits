@@ -4,8 +4,6 @@ import gql from "graphql-tag"
 import Router from "next/router"
 import Form from "./styles/Form"
 import Error from "./ErrorMessage"
-import formatMoney from "../lib/formatMoney"
-import { create } from "domain"
 
 const CREATE_ITEM_MUTATION = gql`
   mutation CREATE_ITEM_MUTATION(
@@ -59,6 +57,7 @@ class CreateItem extends Component {
   }
 
   uploadFile = async e => {
+    //TODO should delete any existing image asset already in the state
     console.log("Uploading file...")
     const file = e.target.files[0]
     const data = new FormData()

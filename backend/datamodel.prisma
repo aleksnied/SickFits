@@ -1,10 +1,23 @@
 # Syntax highlighting/linting for .prisma files is set up for Prisma2.. coming out later this year. https://github.com/prisma/prisma2-docs. Disabled linter for now and using graphql linter instead.
 # For now using graphql schema syntax
 
+enum Permission {
+  ADMIN
+  USER
+  ITEMCREATE
+  ITEMUPDATE
+  ITEMDELETE
+  PERMISSIONUPDATE
+}
+
 type User {
   id: ID! @id
   name: String!
-  email: String!
+  email: String! @unique
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: [Permission!]! @scalarList(strategy: RELATION)
 }
 
 type Item {

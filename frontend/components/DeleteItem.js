@@ -7,6 +7,7 @@ const DELETE_ITEM_MUTATION = gql`
   mutation DELETE_ITEM_MUTATION($id: ID!) {
     deleteItem(id: $id) {
       id
+      image
     }
   }
 `
@@ -15,6 +16,13 @@ class DeleteItem extends Component {
   deleteItem = async deleteItem => {
     const response = await deleteItem()
     console.log(response)
+    const url = response.data.deleteItem.image
+    this.deleteImageAssets(
+      url.substring(
+        url.indexOf("sickfits" + 9),
+        url.indexOf(".jpg") || url.indexOf(".png")
+      )
+    )
   }
 
   update = (cache, { data: { deleteItem } }) => {
@@ -26,6 +34,21 @@ class DeleteItem extends Component {
       query: ALL_ITEMS_QUERY,
       data: { items: items }
     })
+  }
+
+  deleteImageAssets = async assetId => {
+    //TODO need to authenticate this call to cloudinary for it to go through
+    // console.log("Deleting file...")
+    // const data = new FormData()
+    // data.append("public_id", assetId)
+    // const fileDeletion = await (await fetch(
+    //   "https://api.cloudinary.com/v1_1/mailbee/image/destroy",
+    //   {
+    //     method: "POST",
+    //     body: data
+    //   }
+    // )).json()
+    // console.log(fileDeletion)
   }
 
   render() {

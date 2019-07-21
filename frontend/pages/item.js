@@ -1,8 +1,8 @@
-import Item from "../components/Item"
+import SingleItem from "../components/SingleItem"
 
-const Home = _props => (
+const Home = props => (
   <div>
-    <Item />
+    <SingleItem id={props.query.id} />
   </div>
 )
 

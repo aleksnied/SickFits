@@ -19,10 +19,42 @@ type Mutation {
   ): Item!
 
   deleteItem(id: ID!): Item
+
+  signup(email: String!, password: String!, name: String!): User!
+
+  signin(email: String!, password: String!): User!
+
+  signout: SuccessMessage!
+
+  requestReset(email: String!): SuccessMessage!
+
+  resetPassword(
+    resetToken: String!
+    password: String!
+    confirmPassword: String!
+  ): User!
 }
 
 type Query {
   item(where: ItemWhereUniqueInput): Item
-  items: [Item!]!
+  items(
+    where: ItemWhereInput
+    orderBy: ItemOrderByInput
+    first: Int
+    skip: Int
+  ): [Item!]!
+  itemsConnection(where: ItemWhereInput): ItemConnection!
   users: [User!]!
+  me: User
+}
+
+type User implements Node {
+  id: ID!
+  name: String!
+  email: String!
+  permissions: [Permission!]!
+}
+
+type SuccessMessage {
+  message: String
 }
