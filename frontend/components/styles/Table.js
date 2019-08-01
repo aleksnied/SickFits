@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 const Table = styled.table`
   border-spacing: 0;
@@ -11,8 +11,9 @@ const Table = styled.table`
   th {
     border-bottom: 1px solid ${props => props.theme.offWhite};
     border-right: 1px solid ${props => props.theme.offWhite};
-    padding: 10px 5px;
+    padding: 5px;
     position: relative;
+    text-align: center;
     &:last-child {
       border-right: none;
       width: 150px;
@@ -20,12 +21,16 @@ const Table = styled.table`
         width: 100%;
       }
     }
+    label {
+      padding: 10px 5px;
+      display: block;
+    }
   }
   tr {
     &:hover {
       background: ${props => props.theme.offWhite};
     }
   }
-`;
+`
 
-export default Table;
+export default Table

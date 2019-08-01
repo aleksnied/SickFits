@@ -62,7 +62,9 @@ class DeleteItem extends Component {
           <button
             onClick={async () => {
               if (confirm("Are you sure you want to delete this item?")) {
-                await this.deleteItem(deleteItem)
+                await this.deleteItem(deleteItem).catch(error => {
+                  alert(error.message)
+                })
               }
             }}
           >

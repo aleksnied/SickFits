@@ -31,9 +31,11 @@ class Signin extends Component {
     e.preventDefault()
     const response = await signin()
     console.log(response)
-    Router.push({
-      pathname: "/items"
+    this.setState({
+      email: "",
+      password: ""
     })
+    this.props.onSignin && this.props.onSignin()
   }
 
   render() {

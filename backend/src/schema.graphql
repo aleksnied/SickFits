@@ -33,6 +33,14 @@ type Mutation {
     password: String!
     confirmPassword: String!
   ): User!
+
+  updatePermissions(permissions: [Permission]!, userId: ID!): User
+
+  addToCart(id: ID!): CartItem
+
+  removeFromCart(id: ID!): CartItem
+
+  createOrder(token: String!): Order!
 }
 
 type Query {
@@ -44,7 +52,7 @@ type Query {
     skip: Int
   ): [Item!]!
   itemsConnection(where: ItemWhereInput): ItemConnection!
-  users: [User!]!
+  users: [User]!
   me: User
 }
 
@@ -53,6 +61,7 @@ type User implements Node {
   name: String!
   email: String!
   permissions: [Permission!]!
+  cart: [CartItem!]!
 }
 
 type SuccessMessage {

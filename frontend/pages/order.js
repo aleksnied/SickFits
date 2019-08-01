@@ -1,12 +1,12 @@
 import CreateItem from "../components/CreateItem"
 import PleaseSignIn from "../components/PleaseSignIn"
 
-const Sell = _props => (
+const Order = props => (
   <div>
     <PleaseSignIn>
-      <CreateItem />
+      <p>This is the order {props.order.amount}</p>
     </PleaseSignIn>
   </div>
 )
 
-export default Sell
+export default Order
